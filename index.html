@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consulta de Diplomas</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 14px;
+      background: #f0f4f8;
+      color: #333;
+    }
+
+    /* HEADER */
+    header {
+      background: #cfe3f0;
+      padding: 12px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .header-inner img {
+      width: 208px;
+      height: 50px;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* CONTAINER */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    /* INFO SECTION */
+    .info-section {
+      background: #fff;
+      padding: 20px 24px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .info-left h1 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #222;
+      margin-bottom: 12px;
+    }
+
+    .dados-cols {
+      display: flex;
+      gap: 40px;
+    }
+
+    .dados-col p {
+      font-size: 13px;
+      color: #444;
+      line-height: 1.7;
+    }
+
+    .dados-col strong {
+      color: #222;
+    }
+
+    .status-badge {
+      background: #8bc34a;
+      color: #000;
+      font-size: 13px;
+      font-weight: 100;
+      padding: 6px 18px;
+      border-radius: 4px;
+      white-space: nowrap;
+      align-self: center;
+    }
+
+    /* DIPLOMA SECTION */
+    .diploma-section {
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .diploma-viewer {
+      background: #fff;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .diploma-scroll {
+      max-height: 420px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #aaa #f0f0f0;
+    }
+
+    .diploma-scroll::-webkit-scrollbar { width: 8px; }
+    .diploma-scroll::-webkit-scrollbar-track { background: #f0f0f0; }
+    .diploma-scroll::-webkit-scrollbar-thumb { background: #bbb; border-radius: 4px; }
+
+    .diploma-image-wrapper {
+      padding: 16px;
+    }
+
+    .diploma-image-wrapper img {
+      width: 100%;
+      border: 2px solid #1a4c7c;
+      display: block;
+    }
+
+    .diploma-doc {
+      display: flex;
+      gap: 8px;
+      padding: 12px 16px;
+      border-top: 1px solid #e8e8e8;
+    }
+
+    .diploma-doc img {
+      width: 50%;
+      border: 1px solid #ccc;
+    }
+
+    /* ACTIONS SIDEBAR */
+    .actions-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 10px 12px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+
+    .btn:hover { opacity: 0.85; }
+
+    .btn-xml {
+      background: #e8a000;
+      color: #000;
+    }
+
+    .btn-rvdd {
+      background: #e8a000;
+      color: #000;
+    }
+
+    .btn-conformidade {
+      background: #00b0f0;
+      color: #fff;
+    }
+
+    .btn-outline {
+      background: #e8e8e8;
+      color: #000;
+      font-weight: 500;
+    }
+
+    .btn-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    /* MOBILE */
+    @media (max-width: 680px) {
+      header { padding: 10px 0; }
+
+      .header-inner img {
+        width: 160px;
+        height: auto;
+      }
+
+      .info-section {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .status-badge {
+        width: 100%;
+        text-align: center;
+        order: 1;
+      }
+
+      .dados-cols {
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .diploma-section {
+        grid-template-columns: 1fr;
+      }
+
+      .actions-sidebar {
+        order: 2;
+      }
+
+      .btn-row { grid-template-columns: 1fr 1fr; }
+
+      .diploma-scroll { max-height: 340px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <img src="img/estacio.png" alt="Estácio">
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- Dados pessoais + status -->
+    <div class="info-section">
+      <div class="info-left">
+        <h1>HELLEN GEANNE REZENDE SILVA</h1>
+        <div class="dados-cols">
+          <div class="dados-col">
+            <p><strong>CPF:</strong> 062.934.961-40</p>
+            <p><strong>Data de Nascimento:</strong> 10/06/2001</p>
+          </div>
+          <div class="dados-col">
+            <p><strong>Naturalidade:</strong> GOIÂNIA</p>
+            <p><strong>RG:</strong> 6342894</p>
+            <p><strong>Sexo:</strong> Feminino</p>
+          </div>
+        </div>
+      </div>
+      <div class="status-badge">Status do diploma: <strong style="font-weight: 600;">Ativo</strong></div>
+    </div>
+
+    <!-- Diploma + ações -->
+    <div class="diploma-section">
+
+      <!-- Visualizador do diploma -->
+      <div class="diploma-viewer">
+        <div class="diploma-scroll">
+          <div class="diploma-image-wrapper">
+            <img src="img/certified.png" alt="Diploma - Centro Universitário Estácio de Goiás">
+          </div>
+        </div>
+      </div>
+
+      <!-- Botões de ação -->
+      <div class="actions-sidebar">
+        <div class="btn-row">
+          <button class="btn btn-xml">Baixar XML</button>
+          <button class="btn btn-rvdd">Baixar RVDD</button>
+        </div>
+        <button class="btn btn-conformidade">Portal de conformidade do XML</button>
+        <button class="btn btn-outline">Dados da IES Emissora</button>
+        <button class="btn btn-outline">Dados do Curso</button>
+        <button class="btn btn-outline">Dados do Registro</button>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
