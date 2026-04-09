@@ -241,20 +241,20 @@
     <!-- Dados pessoais + status -->
     <div class="info-section">
       <div class="info-left">
-        <h1>HELLEN GEANNE REZENDE SILVA</h1>
+        <h1 id="student-name">...</h1>
         <div class="dados-cols">
           <div class="dados-col">
-            <p><strong>CPF:</strong> 062.934.961-40</p>
-            <p><strong>Data de Nascimento:</strong> 10/06/2001</p>
+            <p><strong>CPF:</strong> <span id="student-cpf">...</span></p>
+            <p><strong>Data de Nascimento:</strong> <span id="student-birth">...</span></p>
           </div>
           <div class="dados-col">
-            <p><strong>Naturalidade:</strong> GOIÂNIA</p>
-            <p><strong>RG:</strong> 6342894</p>
-            <p><strong>Sexo:</strong> Feminino</p>
+            <p><strong>Naturalidade:</strong> <span id="student-naturalness">...</span></p>
+            <p><strong>RG:</strong> <span id="student-rg">...</span></p>
+            <p><strong>Sexo:</strong> <span id="student-sex">...</span></p>
           </div>
         </div>
       </div>
-      <div class="status-badge">Status do diploma: <strong style="font-weight: 600;">Ativo</strong></div>
+      <div class="status-badge">Status do diploma: <strong id="diploma-status" style="font-weight: 600;">...</strong></div>
     </div>
 
     <!-- Diploma + ações -->
@@ -264,7 +264,7 @@
       <div class="diploma-viewer">
         <div class="diploma-scroll">
           <div class="diploma-image-wrapper">
-            <img src="img/certified.png" alt="Diploma - Centro Universitário Estácio de Goiás">
+            <img src="img/certified.png" alt="Diploma">
           </div>
         </div>
       </div>
@@ -272,17 +272,71 @@
       <!-- Botões de ação -->
       <div class="actions-sidebar">
         <div class="btn-row">
-          <button class="btn btn-xml">Baixar XML</button>
-          <button class="btn btn-rvdd">Baixar RVDD</button>
+          <button id="btn-xml" class="btn btn-xml">Baixar XML</button>
+          <button id="btn-rvdd" class="btn btn-rvdd">Baixar RVDD</button>
         </div>
         <button class="btn btn-conformidade">Portal de conformidade do XML</button>
-        <button class="btn btn-outline">Dados da IES Emissora</button>
-        <button class="btn btn-outline">Dados do Curso</button>
-        <button class="btn btn-outline">Dados do Registro</button>
+        <button id="btn-ies" class="btn btn-outline">Dados da IES Emissora</button>
+        <button id="btn-curso" class="btn btn-outline">Dados do Curso</button>
+        <button id="btn-registro" class="btn btn-outline">Dados do Registro</button>
       </div>
 
     </div>
   </div>
+
+  <script>
+    const API_BASE = "http://localhost:8000/api/v1/diplomas";
+    const urlParams = new URLSearchParams(window.location.search);
+    const queryKey = urlParams.get('key') || "ESTACIO2024-AD-HGRS-7788"; // Fallback to seed key
+
+    async function fetchDiploma() {
+      try {
+        const response = await fetch(`${API_BASE}/${queryKey}`);
+        if (!response.ok) throw new Error("Diploma não encontrado");
+        
+        const data = await response.json();
+        
+        // Update Student Data
+        document.getElementById('student-name').textContent = data.student.name;
+        document.getElementById('student-cpf').textContent = data.student.cpf;
+        document.getElementById('student-birth').textContent = data.student.birth_date;
+        document.getElementById('student-naturalness').textContent = data.student.naturalness;
+        document.getElementById('student-rg').textContent = data.student.rg;
+        document.getElementById('student-sex').textContent = data.student.sex;
+        document.getElementById('diploma-status').textContent = data.status;
+
+        // Wire up download buttons
+        document.getElementById('btn-xml').onclick = () => window.location.href = `${API_BASE}/${queryKey}/xml`;
+        document.getElementById('btn-rvdd').onclick = () => window.location.href = `${API_BASE}/${queryKey}/rvdd`;
+
+        // Metadata buttons
+        document.getElementById('btn-ies').onclick = async () => {
+          const res = await fetch(`${API_BASE}/${queryKey}/ies`);
+          const json = await res.json();
+          alert(`IES: ${json.name}\nCódigo MEC: ${json.mec_code}\nCNPJ: ${json.cnpj}`);
+        };
+
+        document.getElementById('btn-curso').onclick = async () => {
+          const res = await fetch(`${API_BASE}/${queryKey}/course`);
+          const json = await res.json();
+          alert(`Curso: ${json.name}\nNível: ${json.degree}`);
+        };
+
+        document.getElementById('btn-registro').onclick = async () => {
+          const res = await fetch(`${API_BASE}/${queryKey}/registration`);
+          const json = await res.json();
+          alert(`Status: ${json.status}\nData Emissão: ${new Date(json.issue_date).toLocaleDateString()}\nChave: ${json.query_key}\nCódigo Validação: ${json.validation_code}`);
+        };
+
+      } catch (error) {
+        console.error(error);
+        alert("Erro ao carregar os dados do diploma. Verifique se o backend está rodando.");
+      }
+    }
+
+    // Load data on start
+    window.onload = fetchDiploma;
+  </script>
 
 </body>
 </html>
