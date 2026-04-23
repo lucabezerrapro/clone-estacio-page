@@ -105,9 +105,6 @@ class App {
             window.location.href = this.service.getRvddUrl(queryKey);
         };
 
-        document.getElementById('btn-conformidade').onclick = () => {
-            window.open("https://verificadordiplomadigital.mec.gov.br/diploma", "_blank");
-        };
 
         document.getElementById('btn-ies').onclick = () => {
             UIManager.showAlert("Dados da IES Emissora", {
