@@ -14,10 +14,9 @@
       color: #333;
     }
 
-    /* HEADER */
     header {
       background: #cfe3f0;
-      padding: 12px 0;
+      padding: 7.8px 0;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -37,14 +36,12 @@
       display: block;
     }
 
-    /* CONTAINER */
     .container {
       max-width: 1100px;
       margin: 0 auto;
       padding: 24px 16px;
     }
 
-    /* INFO SECTION */
     .info-section {
       background: #fff;
       padding: 20px 24px;
@@ -80,17 +77,16 @@
     }
 
     .status-badge {
-      background: #8bc34a;
+      background: #a5d6a7;
       color: #000;
       font-size: 13px;
       font-weight: 100;
       padding: 6px 18px;
       border-radius: 4px;
       white-space: nowrap;
-      align-self: center;
+      align-self: end;
     }
 
-    /* DIPLOMA SECTION */
     .diploma-section {
       display: grid;
       grid-template-columns: 1fr 220px;
@@ -137,7 +133,6 @@
       border: 1px solid #ccc;
     }
 
-    /* ACTIONS SIDEBAR */
     .actions-sidebar {
       display: flex;
       flex-direction: column;
@@ -149,8 +144,8 @@
       width: 100%;
       padding: 10px 12px;
       text-align: center;
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 12px;
+      font-weight: 560;
       border-radius: 4px;
       border: none;
       cursor: pointer;
@@ -160,8 +155,8 @@
 
     .btn:hover { opacity: 0.85; }
 
-    .btn-xml { background: #e8a000; color: #000; }
-    .btn-rvdd { background: #e8a000; color: #000; }
+    .btn-xml { background: #ffb934; color: #000; }
+    .btn-rvdd { background: #ffb934; color: #000; }
     .btn-conformidade { background: #00b0f0; color: #fff; }
 
     .btn-outline {
@@ -182,17 +177,17 @@
       gap: 8px;
     }
 
-    /* ACCORDION PANEL */
+    /* ACCORDION — max-height alto o suficiente para nunca cortar */
     .accordion-panel {
       background: #fff;
       border-radius: 4px;
       overflow: hidden;
       max-height: 0;
-      transition: max-height 0.35s ease, padding 0.25s ease;
+      transition: max-height 0.4s ease;
     }
 
     .accordion-panel.open {
-      max-height: 1000px;
+      max-height: 9999px;
     }
 
     .accordion-inner {
@@ -238,56 +233,22 @@
       font-weight: 700;
     }
 
-    /* MOBILE */
     @media (max-width: 680px) {
       header { padding: 10px 0; }
       .header-inner img { width: 160px; height: auto; }
-
       .container { padding: 16px 12px; }
-
-      /* Info section: empilhado, sem colunas */
-      .info-section {
-        flex-direction: column;
-        gap: 16px;
-        padding: 16px;
-      }
-
+      .info-section { flex-direction: column; gap: 16px; padding: 16px; }
       .info-left h1 { font-size: 15px; margin-bottom: 10px; }
-
       .dados-cols { flex-direction: column; gap: 2px; }
-
       .dados-col p { font-size: 13px; line-height: 1.9; }
-
-      /* Status badge: largura total, centralizado, abaixo dos dados */
-      .status-badge {
-        width: 100%;
-        text-align: center;
-        padding: 10px;
-        font-size: 14px;
-        order: 2;
-      }
-
+      .status-badge { width: 100%; text-align: center; padding: 10px; font-size: 14px; order: 2; }
       .info-left { order: 1; width: 100%; }
-
-      /* Diploma section: coluna única, diploma em cima, botões embaixo */
-      .diploma-section {
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
-
+      .diploma-section { grid-template-columns: 1fr; gap: 12px; }
       .diploma-scroll { max-height: none; overflow-y: visible; }
-
-      /* Botões: coluna completa */
       .actions-sidebar { width: 100%; gap: 10px; }
-
       .btn { padding: 14px 12px; font-size: 14px; }
-
       .btn-row { grid-template-columns: 1fr 1fr; gap: 10px; }
-
-      /* Accordion panels: max-height maior para mobile */
-      .accordion-panel.open { max-height: 2000px; }
     }
-
   </style>
 </head>
 <body>
@@ -300,7 +261,6 @@
 
   <div class="container">
 
-    <!-- Dados pessoais + status -->
     <div class="info-section">
       <div class="info-left">
         <h1>HELLEN GEANNE REZENDE SILVA</h1>
@@ -319,10 +279,8 @@
       <div class="status-badge">Status do diploma: <strong style="font-weight: 600;">Ativo</strong></div>
     </div>
 
-    <!-- Diploma + ações -->
     <div class="diploma-section">
 
-      <!-- Visualizador do diploma -->
       <div class="diploma-viewer">
         <div class="diploma-scroll">
           <div class="diploma-image-wrapper">
@@ -331,25 +289,21 @@
         </div>
       </div>
 
-      <!-- Botões de ação + painéis accordion -->
       <div class="actions-sidebar">
         <div class="btn-row">
-          <button class="btn btn-xml">Baixar XML</button>
-          <button class="btn btn-rvdd">Baixar RVDD</button>
+          <button class="btn btn-xml" onclick="downloadXML()">Baixar XML</button>
+          <button class="btn btn-rvdd" onclick="downloadRVDD()">Baixar RVDD</button>
         </div>
-        <button class="btn btn-conformidade">Portal de conformidade do XML</button>
+        <button class="btn btn-conformidade" onclick="downloadConformidade()">Portal de conformidade do XML</button>
 
-        <!-- IES Emissora -->
         <button class="btn btn-outline" data-target="panel-emissora">Dados da IES Emissora</button>
         <div class="accordion-panel" id="panel-emissora">
           <div class="accordion-inner">
-
             <div class="panel-section">
               <div class="panel-row"><label>Nome</label><span>CENTRO UNIVERSITÁRIO ESTÁCIO DE GOIÁS</span></div>
               <div class="panel-row"><label>Código MEC</label><span>2501</span></div>
               <div class="panel-row"><label>CNPJ</label><span>34572290000194</span></div>
             </div>
-
             <div class="panel-section">
               <h4>Endereço</h4>
               <div class="panel-row"><label>Logradouro</label><span>AVENIDA GOIÁS</span></div>
@@ -360,7 +314,6 @@
               <div class="panel-row"><label>Código do Município</label><span>5208707</span></div>
               <div class="panel-row"><label>UF</label><span>GO</span></div>
             </div>
-
             <div class="panel-section">
               <h4>Credenciamento</h4>
               <div class="panel-row"><label>Tipo</label><span>Portaria</span></div>
@@ -370,7 +323,6 @@
               <div class="panel-row"><label>Seção</label><span>1</span></div>
               <div class="panel-row"><label>Página</label><span>151</span></div>
             </div>
-
             <div class="panel-section">
               <h4>Recredenciamento</h4>
               <div class="panel-row"><label>Tipo</label><span>Portaria</span></div>
@@ -380,7 +332,6 @@
               <div class="panel-row"><label>Página</label><span>26</span></div>
               <div class="panel-row"><label>Data de Publicação</label><span>10/09/2018</span></div>
             </div>
-
             <div class="panel-section">
               <h4>Dados da Mantenedora</h4>
               <div class="panel-row"><label>Razão Social</label><span>SOCIEDADE DE ENSINO SUPERIOR ESTÁCIO DE SÁ</span></div>
@@ -396,18 +347,15 @@
           </div>
         </div>
 
-        <!-- Dados do Curso -->
         <button class="btn btn-outline" data-target="panel-curso">Dados do Curso</button>
         <div class="accordion-panel" id="panel-curso">
           <div class="accordion-inner">
-
             <div class="panel-section">
               <div class="panel-row"><label>Nome do Curso</label><span>NUTRIÇÃO</span></div>
               <div class="panel-row"><label>Código Curso INEP</label><span>1222223</span></div>
               <div class="panel-row"><label>Título Conferido</label><span>BACHAREL A EM NUTRIÇÃO</span></div>
               <div class="panel-row"><label>Grau Conferido</label><span>Bacharelado</span></div>
             </div>
-
             <div class="panel-section">
               <h4>Endereço do Curso</h4>
               <div class="panel-row"><label>Logradouro</label><span>AVENIDA GOIÁS</span></div>
@@ -417,14 +365,12 @@
               <div class="panel-row"><label>Código do Município</label><span>07/5208707</span></div>
               <div class="panel-row"><label>UF</label><span>GO</span></div>
             </div>
-
             <div class="panel-section">
               <h4>Autorização</h4>
               <div class="panel-row"><label>Tipo</label><span>Portaria</span></div>
               <div class="panel-row"><label>Número</label><span>645</span></div>
               <div class="panel-row"><label>Data</label><span>07/07/2017</span></div>
             </div>
-
             <div class="panel-section">
               <h4>Reconhecimento</h4>
               <div class="panel-row"><label>Tipo</label><span>Portaria</span></div>
@@ -434,17 +380,14 @@
           </div>
         </div>
 
-        <!-- Dados do Registro -->
         <button class="btn btn-outline" data-target="panel-registro">Dados do Registro</button>
         <div class="accordion-panel" id="panel-registro">
           <div class="accordion-inner">
-
             <div class="panel-section">
               <div class="panel-row"><label>Nome</label><span>CENTRO UNIVERSITÁRIO ESTÁCIO DE GOIÁS</span></div>
               <div class="panel-row"><label>Código MEC</label><span>2501</span></div>
               <div class="panel-row"><label>CNPJ</label><span>34572290000164</span></div>
             </div>
-
             <div class="panel-section">
               <h4>Endereço do Curso</h4>
               <div class="panel-row"><label>Logradouro</label><span>AVENIDA GOIÁS</span></div>
@@ -454,7 +397,6 @@
               <div class="panel-row"><label>Código do Município</label><span>5208707</span></div>
               <div class="panel-row"><label>UF</label><span>GO</span></div>
             </div>
-
             <div class="panel-section">
               <h4>Credenciamento</h4>
               <div class="panel-row"><label>Tipo</label><span>Portaria</span></div>
@@ -464,7 +406,6 @@
               <div class="panel-row"><label>Seção</label><span>1</span></div>
               <div class="panel-row"><label>Página</label><span>151</span></div>
             </div>
-
             <div class="panel-section">
               <h4>Recredenciamento</h4>
               <div class="panel-row"><label>Tipo</label><span>Portaria</span></div>
@@ -474,7 +415,6 @@
               <div class="panel-row"><label>Página</label><span>151</span></div>
               <div class="panel-row"><label>Data de Publicação</label><span>10/04/2022</span></div>
             </div>
-
             <div class="panel-section">
               <h4>Dados da Mantenedora</h4>
               <div class="panel-row"><label>Razão Social</label><span>SOCIEDADE DE ENSINO SUPERIOR ESTÁCIO DE SÁ</span></div>
@@ -487,7 +427,6 @@
               <div class="panel-row"><label>Código do Município</label><span>3304527</span></div>
               <div class="panel-row"><label>UF</label><span>RJ</span></div>
             </div>
-
             <div class="panel-section">
               <h4>Livro Registro</h4>
               <div class="panel-row"><label>Livro Registro</label><span>—</span></div>
@@ -514,16 +453,13 @@
         const targetPanel = document.getElementById(targetId);
         const isOpen = targetPanel.classList.contains('open');
 
-        // Fecha todos os painéis e remove .active de todos os botões
         document.querySelectorAll('.accordion-panel').forEach(p => p.classList.remove('open'));
         accordionBtns.forEach(b => b.classList.remove('active'));
 
-        // Se não estava aberto, abre o clicado
         if (!isOpen) {
           targetPanel.classList.add('open');
           btn.classList.add('active');
 
-          // Scroll suave até o painel
           setTimeout(() => {
             targetPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
           }, 50);
@@ -532,5 +468,8 @@
     });
   </script>
 
+  <script src="Js/downloadXML.js"></script>
+  <script src="Js/downloadRVDD.js"></script>
+  <script src="Js/downloadConformidade.js"></script>
 </body>
 </html>
