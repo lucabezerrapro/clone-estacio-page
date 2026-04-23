@@ -160,25 +160,20 @@
 
     .btn:hover { opacity: 0.85; }
 
-    .btn-xml {
-      background: #e8a000;
-      color: #000;
-    }
-
-    .btn-rvdd {
-      background: #e8a000;
-      color: #000;
-    }
-
-    .btn-conformidade {
-      background: #00b0f0;
-      color: #fff;
-    }
+    .btn-xml { background: #e8a000; color: #000; }
+    .btn-rvdd { background: #e8a000; color: #000; }
+    .btn-conformidade { background: #00b0f0; color: #fff; }
 
     .btn-outline {
       background: #e8e8e8;
       color: #000;
       font-weight: 500;
+      position: relative;
+    }
+
+    .btn-outline.active {
+      background: #d0d8e0;
+      font-weight: 700;
     }
 
     .btn-row {
@@ -187,50 +182,119 @@
       gap: 8px;
     }
 
+    /* ACCORDION PANEL */
+    .accordion-panel {
+      background: #fff;
+      border-radius: 4px;
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.35s ease, padding 0.25s ease;
+    }
+
+    .accordion-panel.open {
+      max-height: 1000px;
+    }
+
+    .accordion-inner {
+      padding: 16px;
+    }
+
+    .accordion-inner h3 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1a4c7c;
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #e0e8f0;
+    }
+
+    .panel-section {
+      margin-bottom: 12px;
+    }
+
+    .panel-section h4 {
+      font-size: 12px;
+      font-weight: 700;
+      color: #555;
+      margin-bottom: 6px;
+    }
+
+    .panel-row {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      margin-bottom: 4px;
+    }
+
+    .panel-row label {
+      font-size: 12px;
+      color: #555;
+      font-weight: 400;
+    }
+
+    .panel-row span {
+      font-size: 13px;
+      color: #1a4c7c;
+      font-weight: 700;
+    }
+
     /* MOBILE */
     @media (max-width: 680px) {
       header { padding: 10px 0; }
+      .header-inner img { width: 160px; height: auto; }
 
-      .header-inner img {
-        width: 160px;
-        height: auto;
-      }
+      .container { padding: 16px 12px; }
 
+      /* Info section: empilhado, sem colunas */
       .info-section {
         flex-direction: column;
         gap: 16px;
+        padding: 16px;
       }
 
+      .info-left h1 { font-size: 15px; margin-bottom: 10px; }
+
+      .dados-cols { flex-direction: column; gap: 2px; }
+
+      .dados-col p { font-size: 13px; line-height: 1.9; }
+
+      /* Status badge: largura total, centralizado, abaixo dos dados */
       .status-badge {
         width: 100%;
         text-align: center;
-        order: 1;
-      }
-
-      .dados-cols {
-        flex-direction: column;
-        gap: 0;
-      }
-
-      .diploma-section {
-        grid-template-columns: 1fr;
-      }
-
-      .actions-sidebar {
+        padding: 10px;
+        font-size: 14px;
         order: 2;
       }
 
-      .btn-row { grid-template-columns: 1fr 1fr; }
+      .info-left { order: 1; width: 100%; }
 
-      .diploma-scroll { max-height: 340px; }
+      /* Diploma section: coluna única, diploma em cima, botões embaixo */
+      .diploma-section {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .diploma-scroll { max-height: none; overflow-y: visible; }
+
+      /* Botões: coluna completa */
+      .actions-sidebar { width: 100%; gap: 10px; }
+
+      .btn { padding: 14px 12px; font-size: 14px; }
+
+      .btn-row { grid-template-columns: 1fr 1fr; gap: 10px; }
+
+      /* Accordion panels: max-height maior para mobile */
+      .accordion-panel.open { max-height: 2000px; }
     }
+
   </style>
 </head>
 <body>
 
   <header>
     <div class="header-inner">
-      <img src="img/estacio.png" alt="Estácio">
+      <img src="https://cdn.portal.estacio.br/logotipo_marca_estacio_preto_HOME_d4bc9da518_ed6850a937.svg" alt="Estácio">
     </div>
   </header>
 
@@ -267,20 +331,206 @@
         </div>
       </div>
 
-      <!-- Botões de ação -->
+      <!-- Botões de ação + painéis accordion -->
       <div class="actions-sidebar">
         <div class="btn-row">
           <button class="btn btn-xml">Baixar XML</button>
           <button class="btn btn-rvdd">Baixar RVDD</button>
         </div>
         <button class="btn btn-conformidade">Portal de conformidade do XML</button>
-        <button class="btn btn-outline">Dados da IES Emissora</button>
-        <button class="btn btn-outline">Dados do Curso</button>
-        <button class="btn btn-outline">Dados do Registro</button>
-      </div>
 
-    </div>
-  </div>
+        <!-- IES Emissora -->
+        <button class="btn btn-outline" data-target="panel-emissora">Dados da IES Emissora</button>
+        <div class="accordion-panel" id="panel-emissora">
+          <div class="accordion-inner">
+
+            <div class="panel-section">
+              <div class="panel-row"><label>Nome</label><span>CENTRO UNIVERSITÁRIO ESTÁCIO DE GOIÁS</span></div>
+              <div class="panel-row"><label>Código MEC</label><span>2501</span></div>
+              <div class="panel-row"><label>CNPJ</label><span>34572290000194</span></div>
+            </div>
+
+            <div class="panel-section">
+              <h4>Endereço</h4>
+              <div class="panel-row"><label>Logradouro</label><span>AVENIDA GOIÁS</span></div>
+              <div class="panel-row"><label>Número</label><span>2151</span></div>
+              <div class="panel-row"><label>Bairro</label><span>SETOR CENTRAL</span></div>
+              <div class="panel-row"><label>CEP</label><span>74055010</span></div>
+              <div class="panel-row"><label>Município</label><span>GOIÂNIA</span></div>
+              <div class="panel-row"><label>Código do Município</label><span>5208707</span></div>
+              <div class="panel-row"><label>UF</label><span>GO</span></div>
+            </div>
+
+            <div class="panel-section">
+              <h4>Credenciamento</h4>
+              <div class="panel-row"><label>Tipo</label><span>Portaria</span></div>
+              <div class="panel-row"><label>Número</label><span>278</span></div>
+              <div class="panel-row"><label>Data</label><span>14/04/2022</span></div>
+              <div class="panel-row"><label>Data de publicação</label><span>19/04/2022</span></div>
+              <div class="panel-row"><label>Seção</label><span>1</span></div>
+              <div class="panel-row"><label>Página</label><span>151</span></div>
+            </div>
+
+            <div class="panel-section">
+              <h4>Recredenciamento</h4>
+              <div class="panel-row"><label>Tipo</label><span>Portaria</span></div>
+              <div class="panel-row"><label>Número</label><span>918</span></div>
+              <div class="panel-row"><label>Data</label><span>04/09/2018</span></div>
+              <div class="panel-row"><label>Seção</label><span>1</span></div>
+              <div class="panel-row"><label>Página</label><span>26</span></div>
+              <div class="panel-row"><label>Data de Publicação</label><span>10/09/2018</span></div>
+            </div>
+
+            <div class="panel-section">
+              <h4>Dados da Mantenedora</h4>
+              <div class="panel-row"><label>Razão Social</label><span>SOCIEDADE DE ENSINO SUPERIOR ESTÁCIO DE SÁ</span></div>
+              <div class="panel-row"><label>CNPJ</label><span>34572290000194</span></div>
+              <div class="panel-row"><label>Logradouro</label><span>RUA MORAIS E SILVA</span></div>
+              <div class="panel-row"><label>Número</label><span>48</span></div>
+              <div class="panel-row"><label>Bairro</label><span>MARACANÃ</span></div>
+              <div class="panel-row"><label>CEP</label><span>20271030</span></div>
+              <div class="panel-row"><label>Município</label><span>RIO DE JANEIRO</span></div>
+              <div class="panel-row"><label>Código do Município</label><span>3304557</span></div>
+              <div class="panel-row"><label>UF</label><span>RJ</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dados do Curso -->
+        <button class="btn btn-outline" data-target="panel-curso">Dados do Curso</button>
+        <div class="accordion-panel" id="panel-curso">
+          <div class="accordion-inner">
+
+            <div class="panel-section">
+              <div class="panel-row"><label>Nome do Curso</label><span>NUTRIÇÃO</span></div>
+              <div class="panel-row"><label>Código Curso INEP</label><span>1222223</span></div>
+              <div class="panel-row"><label>Título Conferido</label><span>BACHAREL A EM NUTRIÇÃO</span></div>
+              <div class="panel-row"><label>Grau Conferido</label><span>Bacharelado</span></div>
+            </div>
+
+            <div class="panel-section">
+              <h4>Endereço do Curso</h4>
+              <div class="panel-row"><label>Logradouro</label><span>AVENIDA GOIÁS</span></div>
+              <div class="panel-row"><label>Bairro</label><span>SETOR CENTRAL</span></div>
+              <div class="panel-row"><label>CEP</label><span>74055010</span></div>
+              <div class="panel-row"><label>Município</label><span>GOIÂNIA</span></div>
+              <div class="panel-row"><label>Código do Município</label><span>07/5208707</span></div>
+              <div class="panel-row"><label>UF</label><span>GO</span></div>
+            </div>
+
+            <div class="panel-section">
+              <h4>Autorização</h4>
+              <div class="panel-row"><label>Tipo</label><span>Portaria</span></div>
+              <div class="panel-row"><label>Número</label><span>645</span></div>
+              <div class="panel-row"><label>Data</label><span>07/07/2017</span></div>
+            </div>
+
+            <div class="panel-section">
+              <h4>Reconhecimento</h4>
+              <div class="panel-row"><label>Tipo</label><span>Portaria</span></div>
+              <div class="panel-row"><label>Número</label><span>181</span></div>
+              <div class="panel-row"><label>Data</label><span>02/08/2022</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dados do Registro -->
+        <button class="btn btn-outline" data-target="panel-registro">Dados do Registro</button>
+        <div class="accordion-panel" id="panel-registro">
+          <div class="accordion-inner">
+
+            <div class="panel-section">
+              <div class="panel-row"><label>Nome</label><span>CENTRO UNIVERSITÁRIO ESTÁCIO DE GOIÁS</span></div>
+              <div class="panel-row"><label>Código MEC</label><span>2501</span></div>
+              <div class="panel-row"><label>CNPJ</label><span>34572290000164</span></div>
+            </div>
+
+            <div class="panel-section">
+              <h4>Endereço do Curso</h4>
+              <div class="panel-row"><label>Logradouro</label><span>AVENIDA GOIÁS</span></div>
+              <div class="panel-row"><label>Número</label><span>3151</span></div>
+              <div class="panel-row"><label>Bairro</label><span>SETOR CENTRAL</span></div>
+              <div class="panel-row"><label>Município</label><span>GOIÂNIA</span></div>
+              <div class="panel-row"><label>Código do Município</label><span>5208707</span></div>
+              <div class="panel-row"><label>UF</label><span>GO</span></div>
+            </div>
+
+            <div class="panel-section">
+              <h4>Credenciamento</h4>
+              <div class="panel-row"><label>Tipo</label><span>Portaria</span></div>
+              <div class="panel-row"><label>Número</label><span>279</span></div>
+              <div class="panel-row"><label>Data</label><span>14/04/2022</span></div>
+              <div class="panel-row"><label>Data de publicação</label><span>19/04/2022</span></div>
+              <div class="panel-row"><label>Seção</label><span>1</span></div>
+              <div class="panel-row"><label>Página</label><span>151</span></div>
+            </div>
+
+            <div class="panel-section">
+              <h4>Recredenciamento</h4>
+              <div class="panel-row"><label>Tipo</label><span>Portaria</span></div>
+              <div class="panel-row"><label>Número</label><span>919</span></div>
+              <div class="panel-row"><label>Data</label><span>06/09/2018</span></div>
+              <div class="panel-row"><label>Seção</label><span>1</span></div>
+              <div class="panel-row"><label>Página</label><span>151</span></div>
+              <div class="panel-row"><label>Data de Publicação</label><span>10/04/2022</span></div>
+            </div>
+
+            <div class="panel-section">
+              <h4>Dados da Mantenedora</h4>
+              <div class="panel-row"><label>Razão Social</label><span>SOCIEDADE DE ENSINO SUPERIOR ESTÁCIO DE SÁ</span></div>
+              <div class="panel-row"><label>CNPJ</label><span>34572290000164</span></div>
+              <div class="panel-row"><label>Logradouro</label><span>RUA MORAES E SILVA</span></div>
+              <div class="panel-row"><label>Número</label><span>40</span></div>
+              <div class="panel-row"><label>Bairro</label><span>MARACANÃ</span></div>
+              <div class="panel-row"><label>CEP</label><span>20271030</span></div>
+              <div class="panel-row"><label>Município</label><span>RIO DE JANEIRO</span></div>
+              <div class="panel-row"><label>Código do Município</label><span>3304527</span></div>
+              <div class="panel-row"><label>UF</label><span>RJ</span></div>
+            </div>
+
+            <div class="panel-section">
+              <h4>Livro Registro</h4>
+              <div class="panel-row"><label>Livro Registro</label><span>—</span></div>
+              <div class="panel-row"><label>Número Folha do Diploma</label><span>588</span></div>
+              <div class="panel-row"><label>Número Sequência do Diploma</label><span>1512203</span></div>
+              <div class="panel-row"><label>Processo do Diploma</label><span>66785227</span></div>
+              <div class="panel-row"><label>Data de Expedição (título)</label><span>15/08/2025</span></div>
+              <div class="panel-row"><label>Data de Expedição do Diploma</label><span>27/08/2025</span></div>
+              <div class="panel-row"><label>Data de Registro do Diploma</label><span>27/08/2025</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /actions-sidebar -->
+    </div><!-- /diploma-section -->
+  </div><!-- /container -->
+
+  <script>
+    const accordionBtns = document.querySelectorAll('.btn-outline[data-target]');
+
+    accordionBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-target');
+        const targetPanel = document.getElementById(targetId);
+        const isOpen = targetPanel.classList.contains('open');
+
+        // Fecha todos os painéis e remove .active de todos os botões
+        document.querySelectorAll('.accordion-panel').forEach(p => p.classList.remove('open'));
+        accordionBtns.forEach(b => b.classList.remove('active'));
+
+        // Se não estava aberto, abre o clicado
+        if (!isOpen) {
+          targetPanel.classList.add('open');
+          btn.classList.add('active');
+
+          // Scroll suave até o painel
+          setTimeout(() => {
+            targetPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }, 50);
+        }
+      });
+    });
+  </script>
 
 </body>
 </html>
