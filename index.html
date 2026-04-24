@@ -10,7 +10,7 @@
     body {
       font-family: Arial, Helvetica, sans-serif;
       font-size: 14px;
-      background: #f0f4f8;
+      background: #fff;
       color: #333;
     }
 
@@ -37,13 +37,12 @@
     }
 
     .container {
-      max-width: 1100px;
+      max-width: 70%;
       margin: 0 auto;
       padding: 24px 16px;
     }
 
     .info-section {
-      background: #fff;
       padding: 20px 24px;
       margin-bottom: 20px;
       border-radius: 4px;
@@ -80,7 +79,7 @@
       background: #a5d6a7;
       color: #000;
       font-size: 13px;
-      font-weight: 100;
+      font-weight: 500;
       padding: 6px 18px;
       border-radius: 4px;
       white-space: nowrap;
@@ -88,6 +87,7 @@
     }
 
     .diploma-section {
+      background: fff;
       display: grid;
       grid-template-columns: 1fr 220px;
       gap: 16px;
@@ -101,7 +101,7 @@
     }
 
     .diploma-scroll {
-      max-height: 420px;
+      max-height: 400px;
       overflow-y: auto;
       scrollbar-width: thin;
       scrollbar-color: #aaa #f0f0f0;
@@ -134,9 +134,10 @@
     }
 
     .actions-sidebar {
+      width: 310px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 2px;
     }
 
     .btn {
@@ -233,7 +234,7 @@
       font-weight: 700;
     }
 
-    @media (max-width: 680px) {
+    @media (max-width: 930px) {
       header { padding: 10px 0; }
       .header-inner img { width: 160px; height: auto; }
       .container { padding: 16px 12px; }
@@ -263,7 +264,7 @@
 
     <div class="info-section">
       <div class="info-left">
-        <h1>HELLEN GEANNE REZENDE SILVA</h1>
+        <h1>EDSON FERNANDO DE ARAÚJO ROCHA</h1>
         <div class="dados-cols">
           <div class="dados-col">
             <p><strong>CPF:</strong> 062.934.961-40</p>
@@ -272,7 +273,7 @@
           <div class="dados-col">
             <p><strong>Naturalidade:</strong> GOIÂNIA</p>
             <p><strong>RG:</strong> 6342894</p>
-            <p><strong>Sexo:</strong> Feminino</p>
+            <p><strong>Sexo:</strong> Masculino</p>
           </div>
         </div>
       </div>
@@ -294,7 +295,7 @@
           <button class="btn btn-xml" onclick="downloadXML()">Baixar XML</button>
           <button class="btn btn-rvdd" onclick="downloadRVDD()">Baixar RVDD</button>
         </div>
-        <button class="btn btn-conformidade" onclick="downloadConformidade()">Portal de conformidade do XML</button>
+        <button class="btn btn-conformidade" onclick="goPageConformidade()">Portal de conformidade do XML</button>
 
         <button class="btn btn-outline" data-target="panel-emissora">Dados da IES Emissora</button>
         <div class="accordion-panel" id="panel-emissora">
