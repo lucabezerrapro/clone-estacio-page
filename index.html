@@ -14,12 +14,10 @@
       color: #333;
     }
 
+    /* ── HEADER ── */
     header {
       background: #cfe3f0;
-      padding: 7.8px 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      padding: 8px 0;
     }
 
     .header-inner {
@@ -36,16 +34,17 @@
       display: block;
     }
 
+    /* ── CONTAINER ── */
     .container {
-      max-width: 70%;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 24px 16px;
+      padding: 28px 32px;
     }
 
+    /* ── INFO SECTION ── */
     .info-section {
-      padding: 20px 24px;
-      margin-bottom: 20px;
-      border-radius: 4px;
+      padding: 16px 0 24px;
+      margin-bottom: 24px;
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
@@ -54,46 +53,53 @@
     }
 
     .info-left h1 {
-      font-size: 17px;
+      font-size: 20px;
       font-weight: 700;
-      color: #222;
+      color: #111;
       margin-bottom: 12px;
+      letter-spacing: 0;
     }
 
     .dados-cols {
       display: flex;
-      gap: 40px;
+      gap: 56px;
     }
 
     .dados-col p {
-      font-size: 13px;
-      color: #444;
-      line-height: 1.7;
+      font-size: 14px;
+      color: #333;
+      line-height: 1.8;
     }
 
     .dados-col strong {
-      color: #222;
+      color: #111;
+      font-weight: 700;
     }
 
     .status-badge {
       background: #a5d6a7;
       color: #000;
-      font-size: 13px;
-      font-weight: 500;
-      padding: 6px 18px;
+      font-size: 14px;
+      font-weight: 400;
+      padding: 8px 20px;
       border-radius: 4px;
       white-space: nowrap;
-      align-self: end;
+      align-self: flex-end;
     }
 
+    .status-badge strong {
+      font-weight: 700;
+    }
+
+    /* ── DIPLOMA SECTION ── */
     .diploma-section {
-      background: fff;
       display: grid;
-      grid-template-columns: 1fr 220px;
-      gap: 16px;
+      grid-template-columns: 1fr 310px;
+      gap: 20px;
       align-items: start;
     }
 
+    /* ── DIPLOMA VIEWER ── */
     .diploma-viewer {
       background: #fff;
       border-radius: 4px;
@@ -101,7 +107,7 @@
     }
 
     .diploma-scroll {
-      max-height: 400px;
+      max-height: 560px;
       overflow-y: auto;
       scrollbar-width: thin;
       scrollbar-color: #aaa #f0f0f0;
@@ -112,20 +118,19 @@
     .diploma-scroll::-webkit-scrollbar-thumb { background: #bbb; border-radius: 4px; }
 
     .diploma-image-wrapper {
-      padding: 16px;
+      padding: 0;
     }
 
     .diploma-image-wrapper img {
       width: 100%;
-      border: 2px solid #1a4c7c;
+      border: none;
       display: block;
     }
 
     .diploma-doc {
       display: flex;
       gap: 8px;
-      padding: 12px 16px;
-      border-top: 1px solid #e8e8e8;
+      padding: 8px;
     }
 
     .diploma-doc img {
@@ -133,38 +138,40 @@
       border: 1px solid #ccc;
     }
 
+    /* ── SIDEBAR ── */
     .actions-sidebar {
       width: 310px;
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 6px;
     }
 
     .btn {
       display: block;
       width: 100%;
-      padding: 10px 12px;
+      padding: 11px 12px;
       text-align: center;
-      font-size: 12px;
-      font-weight: 560;
+      font-size: 14px;
+      font-weight: 400;
       border-radius: 4px;
       border: none;
       cursor: pointer;
       text-decoration: none;
+      font-family: Arial, Helvetica, sans-serif;
       transition: opacity 0.15s;
     }
 
-    .btn:hover { opacity: 0.85; }
+    .btn:hover { opacity: 0.88; }
 
-    .btn-xml { background: #ffb934; color: #000; }
-    .btn-rvdd { background: #ffb934; color: #000; }
-    .btn-conformidade { background: #00b0f0; color: #fff; }
+    .btn-xml      { background: #ffb934; color: #000; font-weight: 500; font-size: 13px; letter-spacing: 0.01em; }
+    .btn-rvdd     { background: #ffb934; color: #000; font-weight: 500; font-size: 13px; letter-spacing: 0.01em; }
+    .btn-conformidade { background: #00b0f0; color: #fff; font-weight: 500; font-size: 13px; letter-spacing: 0.01em; }
 
     .btn-outline {
       background: #e8e8e8;
       color: #000;
-      font-weight: 500;
-      position: relative;
+      font-weight: 400;
+      font-size: 14px;
     }
 
     .btn-outline.active {
@@ -175,10 +182,10 @@
     .btn-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
+      gap: 6px;
     }
 
-    /* ACCORDION — max-height alto o suficiente para nunca cortar */
+    /* ── ACCORDION ── */
     .accordion-panel {
       background: #fff;
       border-radius: 4px;
@@ -192,7 +199,9 @@
     }
 
     .accordion-inner {
-      padding: 16px;
+      padding: 14px;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
     }
 
     .accordion-inner h3 {
@@ -218,13 +227,13 @@
     .panel-row {
       display: flex;
       flex-direction: column;
-      gap: 3px;
-      margin-bottom: 4px;
+      gap: 1px;
+      margin-bottom: 6px;
     }
 
     .panel-row label {
-      font-size: 12px;
-      color: #555;
+      font-size: 11px;
+      color: #777;
       font-weight: 400;
     }
 
@@ -234,21 +243,81 @@
       font-weight: 700;
     }
 
-    @media (max-width: 930px) {
-      header { padding: 10px 0; }
+    /* ════════════════════════════════
+       MOBILE  (≤ 767px)
+       Replica fiel ao print do original
+       ════════════════════════════════ */
+    @media (max-width: 767px) {
+      header { padding: 8px 0; }
       .header-inner img { width: 160px; height: auto; }
-      .container { padding: 16px 12px; }
-      .info-section { flex-direction: column; gap: 16px; padding: 16px; }
-      .info-left h1 { font-size: 15px; margin-bottom: 10px; }
-      .dados-cols { flex-direction: column; gap: 2px; }
-      .dados-col p { font-size: 13px; line-height: 1.9; }
-      .status-badge { width: 100%; text-align: center; padding: 10px; font-size: 14px; order: 2; }
-      .info-left { order: 1; width: 100%; }
-      .diploma-section { grid-template-columns: 1fr; gap: 12px; }
-      .diploma-scroll { max-height: none; overflow-y: visible; }
-      .actions-sidebar { width: 100%; gap: 10px; }
-      .btn { padding: 14px 12px; font-size: 14px; }
-      .btn-row { grid-template-columns: 1fr 1fr; gap: 10px; }
+
+      .container { padding: 16px 16px; }
+
+      /* Info section: empilhado, nome → dados → badge */
+      .info-section {
+        flex-direction: column;
+        gap: 0;
+        padding: 0 0 16px;
+        margin-bottom: 16px;
+      }
+
+      .info-left { width: 100%; order: 1; }
+
+      .info-left h1 {
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      .dados-cols {
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .dados-col p {
+        font-size: 13px;
+        line-height: 1.85;
+      }
+
+      /* Badge abaixo dos dados, full-width */
+      .status-badge {
+        order: 2;
+        width: 100%;
+        text-align: center;
+        margin-top: 14px;
+        padding: 10px;
+        font-size: 14px;
+        border-radius: 4px;
+      }
+
+      /* Diploma section: coluna única, viewer em cima, sidebar embaixo */
+      .diploma-section {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      /* Diploma sem scroll fixo no mobile */
+      .diploma-scroll {
+        max-height: none;
+        overflow-y: visible;
+      }
+
+      .diploma-image-wrapper { padding: 4px; }
+
+      /* Sidebar full-width */
+      .actions-sidebar {
+        width: 100%;
+        gap: 8px;
+      }
+
+      .btn {
+        padding: 14px 12px;
+        font-size: 14px;
+      }
+
+      .btn-row {
+        gap: 8px;
+      }
     }
   </style>
 </head>
@@ -277,7 +346,7 @@
           </div>
         </div>
       </div>
-      <div class="status-badge">Status do diploma: <strong style="font-weight: 600;">Ativo</strong></div>
+      <div class="status-badge">Status do diploma: <strong>Ativo</strong></div>
     </div>
 
     <div class="diploma-section">
@@ -292,7 +361,7 @@
 
       <div class="actions-sidebar">
         <div class="btn-row">
-          <button class="btn btn-xml" onclick="downloadXML()">Baixar XML</button>
+          <button class="btn btn-xml"  onclick="downloadXML()">Baixar XML</button>
           <button class="btn btn-rvdd" onclick="downloadRVDD()">Baixar RVDD</button>
         </div>
         <button class="btn btn-conformidade" onclick="goPageConformidade()">Portal de conformidade do XML</button>
@@ -450,9 +519,9 @@
 
     accordionBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        const targetId = btn.getAttribute('data-target');
+        const targetId  = btn.getAttribute('data-target');
         const targetPanel = document.getElementById(targetId);
-        const isOpen = targetPanel.classList.contains('open');
+        const isOpen    = targetPanel.classList.contains('open');
 
         document.querySelectorAll('.accordion-panel').forEach(p => p.classList.remove('open'));
         accordionBtns.forEach(b => b.classList.remove('active'));
@@ -460,7 +529,6 @@
         if (!isOpen) {
           targetPanel.classList.add('open');
           btn.classList.add('active');
-
           setTimeout(() => {
             targetPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
           }, 50);
