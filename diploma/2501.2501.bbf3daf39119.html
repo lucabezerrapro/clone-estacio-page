@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="img/favicon.png">
+  <title>Consulta de Diplomas</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 14px;
+      background: #fff;
+      color: #333;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: #cfe3f0;
+      padding: 8px 0;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .header-inner img {
+      width: 208px;
+      height: 50px;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* ── CONTAINER ── */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 28px 32px;
+    }
+
+    /* ── INFO SECTION ── */
+    .info-section {
+      padding: 16px 0 24px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .info-left h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #111;
+      margin-bottom: 12px;
+      letter-spacing: 0;
+    }
+
+    .dados-cols {
+      display: flex;
+      gap: 56px;
+    }
+
+    .dados-col p {
+      font-size: 14px;
+      color: #333;
+      line-height: 1.8;
+    }
+
+    .dados-col strong {
+      color: #111;
+      font-weight: 700;
+    }
+
+    .status-badge {
+      background: #a5d6a7;
+      color: #000;
+      font-size: 14px;
+      font-weight: 400;
+      padding: 8px 20px;
+      border-radius: 4px;
+      white-space: nowrap;
+      align-self: flex-end;
+    }
+
+    .status-badge strong {
+      font-weight: 700;
+    }
+
+    /* ── DIPLOMA SECTION ── */
+    .diploma-section {
+      display: grid;
+      grid-template-columns: 1fr 310px;
+      gap: 20px;
+      align-items: start;
+    }
+
+    /* ── DIPLOMA VIEWER ── */
+    .diploma-viewer {
+      background: #fff;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .diploma-scroll {
+      max-height: 560px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: #aaa #f0f0f0;
+    }
+
+    .diploma-scroll::-webkit-scrollbar { width: 8px; }
+    .diploma-scroll::-webkit-scrollbar-track { background: #f0f0f0; }
+    .diploma-scroll::-webkit-scrollbar-thumb { background: #bbb; border-radius: 4px; }
+
+    .diploma-image-wrapper {
+      padding: 0;
+    }
+
+    .diploma-image-wrapper img {
+      width: 100%;
+      border: none;
+      display: block;
+    }
+
+    .diploma-doc {
+      display: flex;
+      gap: 8px;
+      padding: 8px;
+    }
+
+    .diploma-doc img {
+      width: 50%;
+      border: 1px solid #ccc;
+    }
+
+    /* ── SIDEBAR ── */
+    .actions-sidebar {
+      width: 310px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 11px 12px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 400;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      font-family: Arial, Helvetica, sans-serif;
+      transition: opacity 0.15s;
+    }
+
+    .btn:hover { opacity: 0.88; }
+
+    .btn-xml      { background: #ffb934; color: #000; font-weight: 500; font-size: 13px; letter-spacing: 0.01em; }
+    .btn-rvdd     { background: #ffb934; color: #000; font-weight: 500; font-size: 13px; letter-spacing: 0.01em; }
+    .btn-conformidade { background: #00b0f0; color: #fff; font-weight: 500; font-size: 13px; letter-spacing: 0.01em; }
+
+    .btn-outline {
+      background: #e8e8e8;
+      color: #000;
+      font-weight: 400;
+      font-size: 14px;
+    }
+
+    .btn-outline.active {
+      background: #d0d8e0;
+      font-weight: 700;
+    }
+
+    .btn-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+
+    /* ── ACCORDION ── */
+    .accordion-panel {
+      background: #fff;
+      border-radius: 4px;
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.4s ease;
+    }
+
+    .accordion-panel.open {
+      max-height: 9999px;
+    }
+
+    .accordion-inner {
+      padding: 14px;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+    }
+
+    .accordion-inner h3 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1a4c7c;
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #e0e8f0;
+    }
+
+    .panel-section {
+      margin-bottom: 12px;
+    }
+
+    .panel-section h4 {
+      font-size: 12px;
+      font-weight: 700;
+      color: #555;
+      margin-bottom: 6px;
+    }
+
+    .panel-row {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      margin-bottom: 6px;
+    }
+
+    .panel-row label {
+      font-size: 11px;
+      color: #777;
+      font-weight: 400;
+    }
+
+    .panel-row span {
+      font-size: 13px;
+      color: #1a4c7c;
+      font-weight: 700;
+    }
+
+    /* ════════════════════════════════
+       MOBILE  (≤ 767px)
+       Replica fiel ao print do original
+       ════════════════════════════════ */
+    @media (max-width: 767px) {
+      header { padding: 8px 0; }
+      .header-inner img { width: 160px; height: auto; }
+
+      .container { padding: 16px 16px; }
+
+      /* Info section: empilhado, nome → dados → badge */
+      .info-section {
+        flex-direction: column;
+        gap: 0;
+        padding: 0 0 16px;
+        margin-bottom: 16px;
+      }
+
+      .info-left { width: 100%; order: 1; }
+
+      .info-left h1 {
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      .dados-cols {
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .dados-col p {
+        font-size: 13px;
+        line-height: 1.85;
+      }
+
+      /* Badge abaixo dos dados, full-width */
+      .status-badge {
+        order: 2;
+        width: 100%;
+        text-align: center;
+        margin-top: 14px;
+        padding: 10px;
+        font-size: 14px;
+        border-radius: 4px;
+      }
+
+      /* Diploma section: coluna única, viewer em cima, sidebar embaixo */
+      .diploma-section {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      /* Diploma sem scroll fixo no mobile */
+      .diploma-scroll {
+        max-height: none;
+        overflow-y: visible;
+      }
+
+      .diploma-image-wrapper { padding: 4px; }
+
+      /* Sidebar full-width */
+      .actions-sidebar {
+        width: 100%;
+        gap: 8px;
+      }
+
+      .btn {
+        padding: 14px 12px;
+        font-size: 14px;
+      }
+
+      .btn-row {
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <img src="../img/logo_estacio_transparente.png" alt="Estácio">
+    </div>
+  </header>
+
+  <div class="container">
+
+    <div class="info-section">
+      <div class="info-left">
+        <h1>EDSON FERNANDO DE ARAÚJO ROCHA</h1>
+        <div class="dados-cols">
+          <div class="dados-col">
+            <p><strong>CPF:</strong> 029.353.961-40</p>
+            <p><strong>Data de Nascimento:</strong> 04/04/1995</p>
+          </div>
+          <div class="dados-col">
+            <p><strong>Naturalidade:</strong> GOIÂNIA</p>
+            <p><strong>RG:</strong> 6342894</p>
+            <p><strong>Sexo:</strong> Masculino</p>
+          </div>
+        </div>
+      </div>
+      <div class="status-badge">Status do diploma: <strong>Ativo</strong></div>
+    </div>
+
+    <div class="diploma-section">
+
+      <div class="diploma-viewer">
+        <div class="diploma-scroll">
+          <div class="diploma-image-wrapper">
+            <img src="../img/certified.png" alt="Diploma - Centro Universitário Estácio de Goiás">
+          </div>
+        </div>
+      </div>
+
+      <div class="actions-sidebar">
+        <div class="btn-row">
+          <button class="btn btn-xml"  onclick="downloadXML()">Baixar XML</button>
+          <button class="btn btn-rvdd" onclick="downloadRVDD()">Baixar RVDD</button>
+        </div>
+        <button class="btn btn-conformidade" onclick="goPageConformidade()">Portal de conformidade do XML</button>
+
+        <button class="btn btn-outline" data-target="panel-emissora">Dados da IES Emissora</button>
+        <div class="accordion-panel" id="panel-emissora">
+          <div class="accordion-inner">
+            <div class="panel-section">
+              <div class="panel-row"><label>Nome</label><span>CENTRO UNIVERSITÁRIO ESTÁCIO DE GOIÁS</span></div>
+              <div class="panel-row"><label>Código MEC</label><span>2501</span></div>
+              <div class="panel-row"><label>CNPJ</label><span>34572290000194</span></div>
+            </div>
+            <div class="panel-section">
+              <h4>Endereço</h4>
+              <div class="panel-row"><label>Logradouro</label><span>AVENIDA GOIÁS</span></div>
+              <div class="panel-row"><label>Número</label><span>2151</span></div>
+              <div class="panel-row"><label>Bairro</label><span>SETOR CENTRAL</span></div>
+              <div class="panel-row"><label>CEP</label><span>74055010</span></div>
+              <div class="panel-row"><label>Município</label><span>GOIÂNIA</span></div>
+              <div class="panel-row"><label>Código do Município</label><span>5208707</span></div>
+              <div class="panel-row"><label>UF</label><span>GO</span></div>
+            </div>
+            <div class="panel-section">
+              <h4>Credenciamento</h4>
+              <div class="panel-row"><label>Tipo</label><span>Portaria</span></div>
+              <div class="panel-row"><label>Número</label><span>278</span></div>
+              <div class="panel-row"><label>Data</label><span>14/04/2022</span></div>
+              <div class="panel-row"><label>Data de publicação</label><span>19/04/2022</span></div>
+              <div class="panel-row"><label>Seção</label><span>1</span></div>
+              <div class="panel-row"><label>Página</label><span>151</span></div>
+            </div>
+            <div class="panel-section">
+              <h4>Recredenciamento</h4>
+              <div class="panel-row"><label>Tipo</label><span>Portaria</span></div>
+              <div class="panel-row"><label>Número</label><span>918</span></div>
+              <div class="panel-row"><label>Data</label><span>04/09/2018</span></div>
+              <div class="panel-row"><label>Seção</label><span>1</span></div>
+              <div class="panel-row"><label>Página</label><span>26</span></div>
+              <div class="panel-row"><label>Data de Publicação</label><span>10/09/2018</span></div>
+            </div>
+            <div class="panel-section">
+              <h4>Dados da Mantenedora</h4>
+              <div class="panel-row"><label>Razão Social</label><span>SOCIEDADE DE ENSINO SUPERIOR ESTÁCIO DE SÁ</span></div>
+              <div class="panel-row"><label>CNPJ</label><span>34572290000194</span></div>
+              <div class="panel-row"><label>Logradouro</label><span>RUA MORAIS E SILVA</span></div>
+              <div class="panel-row"><label>Número</label><span>48</span></div>
+              <div class="panel-row"><label>Bairro</label><span>MARACANÃ</span></div>
+              <div class="panel-row"><label>CEP</label><span>20271030</span></div>
+              <div class="panel-row"><label>Município</label><span>GOIÂNIA</span></div>
+              <div class="panel-row"><label>Código do Município</label><span>5208707</span></div>
+              <div class="panel-row"><label>UF</label><span>GO</span></div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-outline" data-target="panel-curso">Dados do Curso</button>
+        <div class="accordion-panel" id="panel-curso">
+          <div class="accordion-inner">
+            <div class="panel-section">
+              <div class="panel-row"><label>Nome do Curso</label><span>NUTRIÇÃO</span></div>
+              <div class="panel-row"><label>Código Curso INEP</label><span>1222223</span></div>
+              <div class="panel-row"><label>Título Conferido</label><span>BACHAREL A EM NUTRIÇÃO</span></div>
+              <div class="panel-row"><label>Grau Conferido</label><span>Bacharelado</span></div>
+            </div>
+            <div class="panel-section">
+              <h4>Endereço do Curso</h4>
+              <div class="panel-row"><label>Logradouro</label><span>AVENIDA GOIÁS</span></div>
+              <div class="panel-row"><label>Bairro</label><span>SETOR CENTRAL</span></div>
+              <div class="panel-row"><label>CEP</label><span>74055010</span></div>
+              <div class="panel-row"><label>Município</label><span>GOIÂNIA</span></div>
+              <div class="panel-row"><label>Código do Município</label><span>07/5208707</span></div>
+              <div class="panel-row"><label>UF</label><span>GO</span></div>
+            </div>
+            <div class="panel-section">
+              <h4>Autorização</h4>
+              <div class="panel-row"><label>Tipo</label><span>Portaria</span></div>
+              <div class="panel-row"><label>Número</label><span>645</span></div>
+              <div class="panel-row"><label>Data</label><span>07/07/2017</span></div>
+            </div>
+            <div class="panel-section">
+              <h4>Reconhecimento</h4>
+              <div class="panel-row"><label>Tipo</label><span>Portaria</span></div>
+              <div class="panel-row"><label>Número</label><span>181</span></div>
+              <div class="panel-row"><label>Data</label><span>02/08/2022</span></div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-outline" data-target="panel-registro">Dados do Registro</button>
+        <div class="accordion-panel" id="panel-registro">
+          <div class="accordion-inner">
+            <div class="panel-section">
+              <div class="panel-row"><label>Nome</label><span>CENTRO UNIVERSITÁRIO ESTÁCIO DE GOIÁS</span></div>
+              <div class="panel-row"><label>Código MEC</label><span>2501</span></div>
+              <div class="panel-row"><label>CNPJ</label><span>34572290000164</span></div>
+            </div>
+            <div class="panel-section">
+              <h4>Endereço do Curso</h4>
+              <div class="panel-row"><label>Logradouro</label><span>AVENIDA GOIÁS</span></div>
+              <div class="panel-row"><label>Número</label><span>3151</span></div>
+              <div class="panel-row"><label>Bairro</label><span>SETOR CENTRAL</span></div>
+              <div class="panel-row"><label>Município</label><span>GOIÂNIA</span></div>
+              <div class="panel-row"><label>Código do Município</label><span>5208707</span></div>
+              <div class="panel-row"><label>UF</label><span>GO</span></div>
+            </div>
+            <div class="panel-section">
+              <h4>Credenciamento</h4>
+              <div class="panel-row"><label>Tipo</label><span>Portaria</span></div>
+              <div class="panel-row"><label>Número</label><span>279</span></div>
+              <div class="panel-row"><label>Data</label><span>14/04/2022</span></div>
+              <div class="panel-row"><label>Data de publicação</label><span>19/04/2022</span></div>
+              <div class="panel-row"><label>Seção</label><span>1</span></div>
+              <div class="panel-row"><label>Página</label><span>151</span></div>
+            </div>
+            <div class="panel-section">
+              <h4>Recredenciamento</h4>
+              <div class="panel-row"><label>Tipo</label><span>Portaria</span></div>
+              <div class="panel-row"><label>Número</label><span>919</span></div>
+              <div class="panel-row"><label>Data</label><span>06/09/2018</span></div>
+              <div class="panel-row"><label>Seção</label><span>1</span></div>
+              <div class="panel-row"><label>Página</label><span>151</span></div>
+              <div class="panel-row"><label>Data de Publicação</label><span>10/04/2022</span></div>
+            </div>
+            <div class="panel-section">
+              <h4>Dados da Mantenedora</h4>
+              <div class="panel-row"><label>Razão Social</label><span>SOCIEDADE DE ENSINO SUPERIOR ESTÁCIO DE SÁ</span></div>
+              <div class="panel-row"><label>CNPJ</label><span>34572290000164</span></div>
+              <div class="panel-row"><label>Logradouro</label><span>RUA MORAES E SILVA</span></div>
+              <div class="panel-row"><label>Número</label><span>40</span></div>
+              <div class="panel-row"><label>Bairro</label><span>MARACANÃ</span></div>
+              <div class="panel-row"><label>CEP</label><span>20271030</span></div>
+              <div class="panel-row"><label>Município</label><span>RIO DE JANEIRO</span></div>
+              <div class="panel-row"><label>Código do Município</label><span>3304527</span></div>
+              <div class="panel-row"><label>UF</label><span>RJ</span></div>
+            </div>
+            <div class="panel-section">
+              <h4>Livro Registro</h4>
+              <div class="panel-row"><label>Livro Registro</label><span>—</span></div>
+              <div class="panel-row"><label>Número Folha do Diploma</label><span>588</span></div>
+              <div class="panel-row"><label>Número Sequência do Diploma</label><span>1512203</span></div>
+              <div class="panel-row"><label>Processo do Diploma</label><span>66785227</span></div>
+              <div class="panel-row"><label>Data de Expedição (título)</label><span>15/08/2025</span></div>
+              <div class="panel-row"><label>Data de Expedição do Diploma</label><span>27/08/2025</span></div>
+              <div class="panel-row"><label>Data de Registro do Diploma</label><span>27/08/2025</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /actions-sidebar -->
+    </div><!-- /diploma-section -->
+  </div><!-- /container -->
+
+  <script>
+    const accordionBtns = document.querySelectorAll('.btn-outline[data-target]');
+
+    accordionBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId  = btn.getAttribute('data-target');
+        const targetPanel = document.getElementById(targetId);
+        const isOpen    = targetPanel.classList.contains('open');
+
+        document.querySelectorAll('.accordion-panel').forEach(p => p.classList.remove('open'));
+        accordionBtns.forEach(b => b.classList.remove('active'));
+
+        if (!isOpen) {
+          targetPanel.classList.add('open');
+          btn.classList.add('active');
+          setTimeout(() => {
+            targetPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }, 50);
+        }
+      });
+    });
+  </script>
+
+  <script src="../Js/downloadXML.js"></script>
+  <script src="../Js/downloadRVDD.js"></script>
+  <script src="../Js/downloadConformidade.js"></script>
+</body>
+</html>
